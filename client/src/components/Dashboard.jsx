@@ -15,6 +15,12 @@ export default function Dashboard() {
 
   const authHeaders = useMemo(() => ({ headers: { Authorization: `Bearer ${token}` } }), [token]);
 
+  const stats = useMemo(() => {
+    const total = sweets.length;
+    const categories = new Set(sweets.map((s) => s.category || 'Uncategorized')).size;
+    return { total, categories };
+  }, [sweets]);
+
   const fetchSweets = async (params = {}) => {
     setLoading(true);
     try {
@@ -72,18 +78,49 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col gap-6 relative px-3 sm:px-4 md:px-6 pb-6">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#eef2ff] via-white to-[#e0f2fe] rounded-[24px]" />
+    <div className="flex flex-col gap-5 relative px-3 sm:px-4 md:px-6 pb-8">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#f9fafb] via-[#f5f7fb] to-[#eef2ff]" />
+      <div className="absolute -top-10 right-6 w-48 h-48 bg-[#c7d2fe] opacity-18 blur-[140px]" />
+      <div className="absolute top-20 left-2 w-56 h-56 bg-[#a5f3fc] opacity-16 blur-[160px]" />
 
-      <header className="flex justify-between items-end gap-3 max-sm:flex-col max-sm:items-start px-1 pt-3">
-        <div className="flex flex-col gap-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#eef2ff] text-[#4338ca] text-xs font-semibold uppercase tracking-[0.14em] w-fit">
+      <header className="flex justify-between items-start gap-3 max-sm:flex-col max-sm:items-start px-1 pt-3">
+        <div className="flex flex-col gap-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 text-[#4338ca] text-xs font-semibold uppercase tracking-[0.14em] w-fit border border-[#e2e8f0] shadow-[0_8px_26px_rgba(15,23,42,0.06)]">
             Sweet suite
           </div>
-          <h1 className="text-[2.1rem] sm:text-[2.3rem] font-bold text-slate-900">Sweets Dashboard</h1>
-          <p className="text-slate-500">Welcome, {user?.name || user?.email}</p>
+          <div className="space-y-1">
+            <h1 className="text-[2.15rem] sm:text-[2.35rem] font-semibold text-slate-900 leading-tight">Sweets Dashboard</h1>
+            <p className="text-slate-500">Welcome, {user?.name || user?.email}</p>
+          </div>
+        </div>
+        <div className="hidden sm:flex items-center gap-2 text-sm text-slate-500 bg-white/90 backdrop-blur px-3 py-2 rounded-full border border-[#e2e8f0] shadow-[0_10px_28px_rgba(15,23,42,0.08)]">
+          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
+          Live inventory synced
         </div>
       </header>
+
+      <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {[{ title: 'Total sweets', value: stats.total, accent: 'from-[#16a34a] to-[#15803d]', pill: 'Increased from last week' }, { title: 'Categories', value: stats.categories, accent: 'from-[#22d3ee] to-[#0284c7]', pill: 'Growing assortment' }].map((card, idx) => (
+          <div
+            key={card.title}
+            className={`rounded-[14px] p-4 shadow-[0_14px_30px_rgba(15,23,42,0.08)] border border-[#e5e7eb] flex flex-col gap-2 min-h-[150px] ${
+              idx === 0 ? 'bg-gradient-to-br from-[#047857] via-[#0f766e] to-[#16a34a] text-white' : 'bg-white/95 backdrop-blur text-slate-900'
+            }`}
+          >
+            <div className="flex items-start justify-between">
+              <div className={`text-xs uppercase tracking-[0.14em] ${idx === 0 ? 'text-white/80' : 'text-slate-500'}`}>{card.title}</div>
+              <span className={`h-7 w-7 rounded-full border ${idx === 0 ? 'border-white/30' : 'border-[#e2e8f0]'} inline-flex items-center justify-center text-[12px] font-semibold ${idx === 0 ? 'text-white' : 'text-slate-600'}`}>
+                ↗
+              </span>
+            </div>
+            <div className="text-[2.1rem] leading-none font-semibold">{card.value}</div>
+            <div className="mt-auto flex items-center gap-2 text-xs font-medium">
+              <span className={`h-5 w-5 rounded-full bg-gradient-to-br ${card.accent} inline-flex items-center justify-center text-[11px] text-white`}>↑</span>
+              <span className={idx === 0 ? 'text-white/85' : 'text-slate-600'}>{card.pill}</span>
+            </div>
+          </div>
+        ))}
+      </section>
 
       <section className="bg-white/90 backdrop-blur border border-white shadow-[0_18px_50px_rgba(15,23,42,0.08)] rounded-[18px] p-4 sm:p-5">
         <form onSubmit={onSearch} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
