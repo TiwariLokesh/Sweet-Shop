@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const sweetController = require('../controllers/sweetController');
+const { auth, requireAdmin } = require('../middleware/auth');
 
-router.get('/', (req, res) => res.status(501).json({ message: 'Not implemented' }));
-router.post('/', (req, res) => res.status(501).json({ message: 'Not implemented' }));
-router.get('/search', (req, res) => res.status(501).json({ message: 'Not implemented' }));
-router.put('/:id', (req, res) => res.status(501).json({ message: 'Not implemented' }));
-router.delete('/:id', (req, res) => res.status(501).json({ message: 'Not implemented' }));
-router.post('/:id/purchase', (req, res) => res.status(501).json({ message: 'Not implemented' }));
-router.post('/:id/restock', (req, res) => res.status(501).json({ message: 'Not implemented' }));
+router.use(auth);
+
+router.get('/', sweetController.list);
+router.post('/', sweetController.create);
+router.get('/search', sweetController.search);
+router.put('/:id', sweetController.update);
+router.delete('/:id', requireAdmin, sweetController.remove);
+router.post('/:id/purchase', sweetController.purchase);
+router.post('/:id/restock', requireAdmin, sweetController.restock);
 
 module.exports = router;
