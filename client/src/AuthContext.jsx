@@ -19,8 +19,13 @@ export function AuthProvider({ children }) {
     else localStorage.removeItem('user');
   }, [user]);
 
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+  };
+
   const value = useMemo(
-    () => ({ token, user, setToken, setUser, isAuthenticated: Boolean(token) }),
+    () => ({ token, user, setToken, setUser, logout, isAuthenticated: Boolean(token) }),
     [token, user]
   );
 

@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import { useAuth } from '../AuthContext';
 import SweetCard from './SweetCard';
 
 export default function Dashboard() {
-  const { token, user } = useAuth();
+  const { token, user, logout } = useAuth();
+  const navigate = useNavigate();
   const [sweets, setSweets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({ q: '', category: '', minPrice: '', maxPrice: '' });
@@ -77,6 +79,11 @@ export default function Dashboard() {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <div className="flex flex-col gap-5 relative px-3 sm:px-4 md:px-6 pb-8">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#f9fafb] via-[#f5f7fb] to-[#eef2ff]" />
@@ -93,9 +100,18 @@ export default function Dashboard() {
             <p className="text-slate-500">Welcome, {user?.name || user?.email}</p>
           </div>
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-sm text-slate-500 bg-white/90 backdrop-blur px-3 py-2 rounded-full border border-[#e2e8f0] shadow-[0_10px_28px_rgba(15,23,42,0.08)]">
-          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
-          Live inventory synced
+        <div className="flex items-center gap-2 sm:gap-3 max-sm:w-full max-sm:justify-between">
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="rounded-full border border-[#e2e8f0] bg-white/90 px-3.5 py-2 text-sm font-semibold text-slate-700 shadow-[0_10px_26px_rgba(15,23,42,0.08)] transition hover:-translate-y-[1px] hover:shadow-[0_12px_30px_rgba(15,23,42,0.12)]"
+          >
+            Logout
+          </button>
+          <div className="hidden sm:flex items-center gap-2 text-sm text-slate-500 bg-white/90 backdrop-blur px-3 py-2 rounded-full border border-[#e2e8f0] shadow-[0_10px_28px_rgba(15,23,42,0.08)]">
+            <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
+            Live inventory synced
+          </div>
         </div>
       </header>
 
