@@ -32,7 +32,7 @@ function AppShell() {
 export default function App() {
   return (
     <AuthProvider>
-      <div className="min-h-screen max-w-[1100px] mx-auto pt-8 px-5 pb-12 font-sans text-[#0f172a] bg-[radial-gradient(circle_at_20%_20%,_#eef2ff,_#f8fafc_30%)] max-sm:px-4">
+      <div className="min-h-screen w-full bg-[radial-gradient(circle_at_20%_20%,_#eef2ff,_#f8fafc_35%)] font-sans text-[#0f172a]">
         <AppShell />
       </div>
     </AuthProvider>

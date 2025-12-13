@@ -13,7 +13,7 @@
   }
 
   body {
-    @apply m-0 overflow-hidden bg-[radial-gradient(circle_at_20%_20%,_#eef2ff,_#f8fafc_30%)];
+    @apply m-0 overflow-x-hidden bg-[radial-gradient(circle_at_20%_20%,_#eef2ff,_#f8fafc_30%)];
   }
 
   *,
