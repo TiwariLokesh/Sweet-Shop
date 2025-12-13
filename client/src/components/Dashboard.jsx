@@ -10,6 +10,9 @@ export default function Dashboard() {
   const [filters, setFilters] = useState({ q: '', category: '', minPrice: '', maxPrice: '' });
   const [newSweet, setNewSweet] = useState({ name: '', category: '', price: '', quantity: '' });
 
+  const inputClass = 'rounded-[10px] border border-[#cbd5e1] bg-white py-[0.75rem] px-3';
+  const buttonClass = 'rounded-[10px] border border-[#cbd5e1] bg-[#e2e8f0] py-[0.7rem] px-4 cursor-pointer transition duration-200 ease-linear disabled:opacity-60 disabled:cursor-not-allowed';
+
   const authHeaders = useMemo(() => ({ headers: { Authorization: `Bearer ${token}` } }), [token]);
 
   const fetchSweets = async (params = {}) => {
@@ -69,42 +72,42 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="dashboard">
-      <header className="dash-header">
+    <div className="flex flex-col gap-5">
+      <header className="flex justify-between items-end max-sm:flex-col max-sm:items-start max-sm:gap-2">
         <div>
-          <p className="muted">Welcome, {user?.name || user?.email}</p>
-          <h1>Sweets Dashboard</h1>
+          <p className="text-slate-500">Welcome, {user?.name || user?.email}</p>
+          <h1 className="text-[2rem] font-bold">Sweets Dashboard</h1>
         </div>
       </header>
 
-      <section className="filters">
-        <form onSubmit={onSearch} className="filter-grid">
-          <input name="q" placeholder="Search name" value={filters.q} onChange={onFilterChange} />
-          <input name="category" placeholder="Category" value={filters.category} onChange={onFilterChange} />
-          <input name="minPrice" type="number" placeholder="Min price" value={filters.minPrice} onChange={onFilterChange} />
-          <input name="maxPrice" type="number" placeholder="Max price" value={filters.maxPrice} onChange={onFilterChange} />
-          <button type="submit">Search</button>
+      <section className="bg-white border border-[#e2e8f0] rounded-[14px] p-4">
+        <form onSubmit={onSearch} className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-3">
+          <input name="q" placeholder="Search name" value={filters.q} onChange={onFilterChange} className={inputClass} />
+          <input name="category" placeholder="Category" value={filters.category} onChange={onFilterChange} className={inputClass} />
+          <input name="minPrice" type="number" placeholder="Min price" value={filters.minPrice} onChange={onFilterChange} className={inputClass} />
+          <input name="maxPrice" type="number" placeholder="Max price" value={filters.maxPrice} onChange={onFilterChange} className={inputClass} />
+          <button type="submit" className={buttonClass}>Search</button>
         </form>
       </section>
 
       {user?.role === 'admin' && (
-        <section className="card">
-          <h2>Admin: Add Sweet</h2>
-          <form onSubmit={onCreate} className="new-sweet-form">
-            <input name="name" placeholder="Name" value={newSweet.name} onChange={(e) => setNewSweet({ ...newSweet, name: e.target.value })} required />
-            <input name="category" placeholder="Category" value={newSweet.category} onChange={(e) => setNewSweet({ ...newSweet, category: e.target.value })} required />
-            <input name="price" type="number" placeholder="Price" value={newSweet.price} onChange={(e) => setNewSweet({ ...newSweet, price: e.target.value })} required />
-            <input name="quantity" type="number" placeholder="Quantity" value={newSweet.quantity} onChange={(e) => setNewSweet({ ...newSweet, quantity: e.target.value })} required />
-            <button type="submit">Create</button>
+        <section className="bg-white border border-[#e2e8f0] rounded-[14px] p-4">
+          <h2 className="text-[1.5rem] font-semibold">Admin: Add Sweet</h2>
+          <form onSubmit={onCreate} className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-2 mt-2">
+            <input name="name" placeholder="Name" value={newSweet.name} onChange={(e) => setNewSweet({ ...newSweet, name: e.target.value })} className={inputClass} required />
+            <input name="category" placeholder="Category" value={newSweet.category} onChange={(e) => setNewSweet({ ...newSweet, category: e.target.value })} className={inputClass} required />
+            <input name="price" type="number" placeholder="Price" value={newSweet.price} onChange={(e) => setNewSweet({ ...newSweet, price: e.target.value })} className={inputClass} required />
+            <input name="quantity" type="number" placeholder="Quantity" value={newSweet.quantity} onChange={(e) => setNewSweet({ ...newSweet, quantity: e.target.value })} className={inputClass} required />
+            <button type="submit" className={buttonClass}>Create</button>
           </form>
         </section>
       )}
 
-      <section className="grid">
+      <section className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4">
         {loading ? (
           <p>Loading sweets...</p>
         ) : sweets.length === 0 ? (
-          <p className="muted">No sweets found.</p>
+          <p className="text-slate-500">No sweets found.</p>
         ) : (
           sweets.map((sweet) => (
             <SweetCard key={sweet.id} sweet={sweet} onUpdated={updateSweet} onDeleted={deleteSweet} />

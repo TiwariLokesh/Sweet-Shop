@@ -9,6 +9,9 @@ export default function SweetCard({ sweet, onUpdated, onDeleted }) {
   const [editQuantity, setEditQuantity] = useState(sweet.quantity);
   const [busy, setBusy] = useState(false);
 
+  const inputClass = 'rounded-[10px] border border-[#cbd5e1] bg-white py-[0.75rem] px-3';
+  const buttonClass = 'rounded-[10px] border border-[#cbd5e1] bg-[#e2e8f0] py-[0.7rem] px-4 cursor-pointer transition duration-200 ease-linear disabled:opacity-60 disabled:cursor-not-allowed';
+
   const authHeaders = { headers: { Authorization: `Bearer ${token}` } };
 
   const purchase = async () => {
@@ -66,42 +69,42 @@ export default function SweetCard({ sweet, onUpdated, onDeleted }) {
   const canPurchase = sweet.quantity <= 0 || busy;
 
   return (
-    <div className="sweet-card">
-      <div>
-        <h3>{sweet.name}</h3>
-        <p className="muted">{sweet.category}</p>
+    <div className="bg-white border border-[#e2e8f0] rounded-[14px] p-4 flex flex-col gap-3 shadow-[0_10px_30px_rgba(15,23,42,0.05)]">
+      <div className="space-y-1">
+        <h3 className="text-[1.17rem] font-semibold">{sweet.name}</h3>
+        <p className="text-slate-500">{sweet.category}</p>
         <p>${sweet.price.toFixed(2)}</p>
         <p data-testid="quantity">Qty: {sweet.quantity}</p>
       </div>
-      <div className="actions">
-        <button onClick={purchase} disabled={canPurchase} aria-label={`purchase-${sweet.name}`}>
+      <div className="flex gap-2 flex-wrap">
+        <button className={buttonClass} onClick={purchase} disabled={canPurchase} aria-label={`purchase-${sweet.name}`}>
           Purchase
         </button>
         {user?.role === 'admin' && (
           <>
-            <button onClick={restock} disabled={busy} aria-label={`restock-${sweet.name}`}>
+            <button className={buttonClass} onClick={restock} disabled={busy} aria-label={`restock-${sweet.name}`}>
               Restock
             </button>
-            <button onClick={() => setIsUpdating((v) => !v)} disabled={busy} aria-label={`edit-${sweet.name}`}>
+            <button className={buttonClass} onClick={() => setIsUpdating((v) => !v)} disabled={busy} aria-label={`edit-${sweet.name}`}>
               {isUpdating ? 'Cancel' : 'Edit'}
             </button>
-            <button onClick={remove} disabled={busy} aria-label={`delete-${sweet.name}`}>
+            <button className={buttonClass} onClick={remove} disabled={busy} aria-label={`delete-${sweet.name}`}>
               Delete
             </button>
           </>
         )}
       </div>
       {isUpdating && user?.role === 'admin' && (
-        <div className="edit-form">
-          <label>
+        <div className="grid grid-cols-2 gap-2 items-center">
+          <label className="flex flex-col gap-1 text-sm">
             Price
-            <input type="number" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} />
+            <input type="number" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} className={inputClass} />
           </label>
-          <label>
+          <label className="flex flex-col gap-1 text-sm">
             Quantity
-            <input type="number" value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)} />
+            <input type="number" value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)} className={inputClass} />
           </label>
-          <button onClick={update} disabled={busy} aria-label={`save-${sweet.name}`}>
+          <button className={buttonClass} onClick={update} disabled={busy} aria-label={`save-${sweet.name}`}>
             Save
           </button>
         </div>
