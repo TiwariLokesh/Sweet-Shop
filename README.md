@@ -87,9 +87,6 @@ VITE_API_URL=http://localhost:5000/api
 - `POST /api/sweets/:id/restock` (admin)
 
 ## My AI Usage
-- **Tools used**: GitHub Copilot (inline suggestions in VS Code) and ChatGPT — GPT-5.1-Codex-Max (Preview).
-- **How I used them**: Copilot for quick scaffolds, JSX/Tailwind completions, and small refactors; ChatGPT for API design trade-offs, test strategy ideas, and README phrasing.
-- **Reflection**: AI sped up repetitive code and documentation, but I verified auth rules, DB schema choices, and tests manually to avoid hidden assumptions.
-
-## Deployment
-- Not yet deployed. Deploy to Vercel/Netlify (frontend) + Render/Heroku/Fly.io (backend) or a single full-stack host, then add the live URL here.
+- **Tools used**: GitHub Copilot (inline suggestions in VS Code), ChatGPT — GPT-5.1-Codex-Max (Preview), and Gemini.
+- **How I used them**: Copilot for quick scaffolds, JSX/Tailwind completions, and small refactors; ChatGPT for API design trade-offs, test strategy ideas, and README phrasing; Gemini to sanity-check edge cases and alternate UI copy/empty states.
+- **Reflection**: AI sped up repetitive code and documentation, but I verified auth rules, DB schema choices, and tests manually to avoid hidden assumptions. Gemini’s prompts surfaced a few UX copy tweaks, but final calls were manual.
