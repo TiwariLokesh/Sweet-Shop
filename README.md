@@ -72,7 +72,7 @@ VITE_API_URL=http://localhost:5000/api
 	![Dashboard overview with filters and KPIs](images/Screenshot%202025-12-14%20155951.png)
 - Purchase flow with stock guardrails  
 	![Purchase flow with stock guardrails](images/Screenshot%202025-12-14%20160036.png)
-- Admin CRUD and restock actions  
+- Dashboard for User  
 	![Dashboard for User](images/Screenshot%202025-12-14%20160108.png)
 
 ## API Quick Reference
