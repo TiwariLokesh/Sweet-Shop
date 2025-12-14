@@ -88,5 +88,8 @@ VITE_API_URL=http://localhost:5000/api
 
 ## My AI Usage
 - **Tools used**: GitHub Copilot (inline suggestions in VS Code), ChatGPT — GPT-5.1-Codex-Max (Preview), and Gemini.
-- **How I used them**: Copilot for quick scaffolds, JSX/Tailwind completions, and small refactors; ChatGPT for API design trade-offs, test strategy ideas, and README phrasing; Gemini to sanity-check edge cases and alternate UI copy/empty states.
-- **Reflection**: AI sped up repetitive code and documentation, but I verified auth rules, DB schema choices, and tests manually to avoid hidden assumptions. Gemini’s prompts surfaced a few UX copy tweaks, but final calls were manual.
+- **How I used them**:
+	- Copilot: Scaffolding React/Tailwind UI, refining dashboard cards/gradients, and speeding up logout wiring and small refactors.
+	- ChatGPT: Pair-programmed TDD for auth and sweets CRUD (MongoMemoryServer, Supertest), clarified API shapes, and helped draft README language. Co-authored commits: auth endpoints and sweets inventory.
+	- Gemini: Reviewed SPA flows and empty states, suggested UI copy tweaks, and co-authored the React SPA build commits.
+- **Reflection**: AI accelerated boilerplate, styling, and test scaffolds; I kept ownership of business rules (auth roles, purchase limits), schema choices, and final UX decisions. Every AI-suggested change was run through tests (Jest/Supertest/Vitest) and manual review before merging.
