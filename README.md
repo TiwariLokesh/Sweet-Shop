@@ -1,88 +1,95 @@
 # Sweet Shop Management System
 
-A full-stack sweet shop manager with JWT auth, role-based admin features, and a modern React dashboard. Built with strict TDD using Jest/Supertest (backend) and Vitest/RTL (frontend).
+A full-stack sweet shop manager with JWT auth, role-based admin features, and a modern React dashboard. Users can browse and purchase sweets; admins can add, edit, restock, and delete inventory. Logout is available for all roles.
 
-## Features
-- Auth: register/login with hashed passwords and JWT; roles `user` and `admin`.
-- Sweets: create, list, search (name/category/price range), update, delete (admin only).
-- Inventory: purchase (decrement, blocks oversell), restock (admin only).
-- UI: responsive SPA with login/register, search & filters, purchase button disabled at zero, admin CRUD/edit/restock/delete.
+## What’s Inside
+- **Auth**: Register/login with hashed passwords, JWT, role-based access (`user`, `admin`), logout.
+- **Inventory**: Create, list, search (name/category/price range), update, delete (admin only), restock, purchase with oversell protection.
+- **UI**: Responsive React SPA with filters, KPI tiles, admin CRUD panel, and disabled purchase when out of stock.
 
 ## Tech Stack
 - Backend: Node.js, Express, MongoDB (Mongoose), JWT, bcrypt, Jest, Supertest.
-- Frontend: React (Vite), Axios, React Router, Vitest, React Testing Library.
+- Frontend: React (Vite), Axios, React Router, Tailwind CSS, Vitest, React Testing Library.
 
-## Setup
+## Local Setup
 ### Prerequisites
 - Node.js 18+
 - MongoDB URI (local or hosted)
 
-### Backend
+### 1) Clone
+```bash
+git clone https://github.com/TiwariLokesh/Sweet-Shop.git
+cd Sweet-Shop
+```
+
+### 2) Backend (API)
 ```bash
 cd server
-cp .env.example .env   # create your env file
+cp .env.example .env          # set your secrets
 npm install
-npm start              # or: npm run dev
+npm start                     # production-like
+# or hot reload during dev
+npm run dev
 ```
 
-### Frontend
-```bash
-cd client
-cp .env.example .env   # create your env file
-npm install
-npm run dev            # starts Vite dev server
-```
-
-### Environment Variables
-Create `.env` files in each package:
-
-`server/.env`
+Env (`server/.env`):
 ```
 MONGO_URI=mongodb://localhost:27017/sweet-shop
 JWT_SECRET=super-secret
 PORT=5000
 ```
 
-`client/.env`
+### 3) Frontend (Vite)
+```bash
+cd ../client
+cp .env.example .env          # point API to backend
+npm install
+npm run dev                   # Vite dev server
+```
+
+Env (`client/.env`):
 ```
 VITE_API_URL=http://localhost:5000/api
 ```
 
+### 4) Open the app
+- Backend defaults to `http://localhost:5000`
+- Frontend dev server defaults to `http://localhost:5173`
+
 ## Running Tests
 - Backend: `cd server && npm test`
-- Frontend: `cd client && npm test` (or `npx vitest run --environment jsdom`)
+- Frontend: `cd client && npm test` (Vitest + jsdom)
 
-## API Summary
+## Test Report (latest run)
+- **Backend (Jest)**: 2 suites, 19 tests — **pass** (10.6s)
+- **Frontend (Vitest, jsdom)**: 1 suite, 3 tests — **pass** (2.3s)
+	- Notes: React Router v7 future-flag warnings only; no failures.
+
+## Screenshots
+- Login and auth flow  
+	![Login and auth flow](images/Screenshot%202025-12-14%20155930.png)
+- Dashboard overview with filters and KPIs  
+	![Dashboard overview with filters and KPIs](images/Screenshot%202025-12-14%20155951.png)
+- Purchase flow with stock guardrails  
+	![Purchase flow with stock guardrails](images/Screenshot%202025-12-14%20160036.png)
+- Admin CRUD and restock actions  
+	![Admin CRUD and restock actions](images/Screenshot%202025-12-14%20160108.png)
+
+## API Quick Reference
 - `POST /api/auth/register`
 - `POST /api/auth/login`
 - `POST /api/sweets` (auth)
 - `GET /api/sweets` (auth)
-- `GET /api/sweets/search` (auth, query: q, category, minPrice, maxPrice)
+- `GET /api/sweets/search` (auth; q, category, minPrice, maxPrice)
 - `PUT /api/sweets/:id` (auth)
 - `DELETE /api/sweets/:id` (admin)
 - `POST /api/sweets/:id/purchase` (auth)
 - `POST /api/sweets/:id/restock` (admin)
 
-## Frontend Usage
-- Login/Register, then access dashboard.
-- Search/filter inputs at top; purchase buttons disable at zero quantity.
-- Admins see create form plus edit/restock/delete controls on cards.
-
-## Test Report (latest run)
-- Backend: Jest — 2 suites, 19 tests — **pass**
-- Frontend: Vitest — 1 suite, 3 tests — **pass**
-
 ## My AI Usage
-- **GitHub Copilot**: Project scaffolding and repetitive wiring (initial setup, boilerplate configs).
-- **ChatGPT**: Backend auth + sweets/inventory design, validation/edge cases, Express/Mongoose service patterns, JWT/role handling.
-- **Gemini**: Frontend UX flow, React routing and dashboard interactions, test flows for purchase/admin actions.
-- **Manual**: README authoring, environment docs, small fixes/adjustments.
+- **Tools used**: GitHub Copilot (inline suggestions in VS Code) and ChatGPT — GPT-5.1-Codex-Max (Preview).
+- **How I used them**: Copilot for quick scaffolds, JSX/Tailwind completions, and small refactors; ChatGPT for API design trade-offs, test strategy ideas, and README phrasing.
+- **Reflection**: AI sped up repetitive code and documentation, but I verified auth rules, DB schema choices, and tests manually to avoid hidden assumptions.
 
-## Screenshots (placeholders)
-- `docs/screenshot-login.png`
-- `docs/screenshot-dashboard.png`
-
-## Notes
-- Controllers stay thin; business logic in services. Errors surfaced with proper status codes.
-- JWT required on sweets routes; admin guard on delete/restock.
-- Purchase checks prevent negative stock; price/quantity validated non-negative.
+## Deployment
+- Not yet deployed. Deploy to Vercel/Netlify (frontend) + Render/Heroku/Fly.io (backend) or a single full-stack host, then add the live URL here.
